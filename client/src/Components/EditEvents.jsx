@@ -4,7 +4,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 const EditEvents = () => {
     const {id} = useParams()
-    const [employee, setEvents] = useState({
+    const [events, setEvents] = useState({
         event_name: '',
         event_type: '',
         event_date: '',
@@ -12,20 +12,12 @@ const EditEvents = () => {
         ending_time: '',
         event_location: '',
         event_description: '',
-        category_id: "",
+        
       });
-      const [category, setCategory] = useState([])
+      
       const navigate = useNavigate()
 
       useEffect(()=> {
-        axios.get('http://localhost:3000/auth/category')
-        .then(result => {
-            if(result.data.Status) {
-                setCategory(result.data.Result);
-            } else {
-                alert(result.data.Error)
-            }
-        }).catch(err => console.log(err))
 
         axios.get('http://localhost:3000/auth/events/'+id)
         .then(result => {
@@ -38,7 +30,6 @@ const EditEvents = () => {
                 ending_time: result.data.Result[0].ending_time,
                 event_location: result.data.Result[0].event_location,
                 event_description: result.data.Result[0].event_description,
-                category_id: result.data.Result[0].category_id,
             })
         }).catch(err => console.log(err))
     }, [])
@@ -56,7 +47,7 @@ const EditEvents = () => {
     }
     
   return (
-    
+
         <div className="d-flex justify-content-center align-items-center mt-3">
           <div className="p-3 rounded w-50 border">
             <h3 className="text-center">Add Event</h3>
@@ -131,17 +122,6 @@ const EditEvents = () => {
                     setEvents({ ...events, ending_time: e.target.value })
                   }
                 />
-              </div>
-              <div className="col-12">
-                <label for="category" className="form-label">
-                  Category
-                </label>
-                <select name="category" id="category" className="form-select"
-                    onChange={(e) => setEvents({...events, category_id: e.target.value})}>
-                  {category.map((c) => {
-                    return <option value={c.id}>{c.name}</option>;
-                  })}
-                </select>
               </div>
           
           <div className="col-12">
