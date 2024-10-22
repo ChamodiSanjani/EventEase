@@ -3,14 +3,12 @@ import React, { useEffect, useState } from 'react'
 
 const Home = () => {
   const [adminTotal, setAdminTotal] = useState(0)
-  const [employeeTotal, setemployeeTotal] = useState(0)
-  const [salaryTotal, setSalaryTotal] = useState(0)
+  const [eventsTotal, seteventsTotal] = useState(0)
   const [admins, setAdmins] = useState([])
 
   useEffect(() => {
     adminCount();
-    employeeCount();
-    salaryCount();
+    eventsCount();
     AdminRecords();
   }, [])
 
@@ -32,24 +30,15 @@ const Home = () => {
       }
     })
   }
-  const employeeCount = () => {
-    axios.get('http://localhost:3000/auth/employee_count')
+  const eventsCount = () => {
+    axios.get('http://localhost:3000/auth/events_count')
     .then(result => {
       if(result.data.Status) {
-        setemployeeTotal(result.data.Result[0].employee)
+        seteventsTotal(result.data.Result[0].events)
       }
     })
   }
-  const salaryCount = () => {
-    axios.get('http://localhost:3000/auth/salary_count')
-    .then(result => {
-      if(result.data.Status) {
-        setSalaryTotal(result.data.Result[0].salaryOFEmp)
-      } else {
-        alert(result.data.Error)
-      }
-    })
-  }
+
   return (
     <div>
       <div className='p-3 d-flex justify-content-around mt-3'>
@@ -65,31 +54,22 @@ const Home = () => {
         </div>
         <div className='px-3 pt-2 pb-3 border shadow-sm w-25'>
           <div className='text-center pb-1'>
-            <h4>Employee</h4>
+            <h4>Events</h4>
           </div>
           <hr />
           <div className='d-flex justify-content-between'>
             <h5>Total:</h5>
-            <h5>{employeeTotal}</h5>
+            <h5>{eventsTotal}</h5>
           </div>
         </div>
-        <div className='px-3 pt-2 pb-3 border shadow-sm w-25'>
-          <div className='text-center pb-1'>
-            <h4>Salary</h4>
-          </div>
-          <hr />
-          <div className='d-flex justify-content-between'>
-            <h5>Total:</h5>
-            <h5>${salaryTotal}</h5>
-          </div>
-        </div>
+        
       </div>
       <div className='mt-4 px-5 pt-3'>
         <h3>List of Admins</h3>
         <table className='table'>
           <thead>
             <tr>
-              <th>Email</th>
+              <th>Events</th>
               <th>Action</th>
             </tr>
           </thead>
