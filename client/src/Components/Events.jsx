@@ -33,8 +33,8 @@ const Events = () => {
       <div className="d-flex justify-content-center">
         <h3>Employee List</h3>
       </div>
-      <Link to="/dashboard/add_employee" className="btn btn-success">
-        Add Employee
+      <Link to="/dashboard/add_event" className="btn btn-success">
+        Add Event
       </Link>
       <div className="mt-3">
         <table className="table">

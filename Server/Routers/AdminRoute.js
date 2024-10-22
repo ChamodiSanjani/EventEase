@@ -23,6 +23,24 @@ router.post('/adminlogin', (req, res) => {
     });
 });
 
+
+router.get('/category', (req, res) => {
+    const sql = "SELECT * FROM category";
+    con.query(sql, (err, result) => {
+        if(err) return res.json({Status: false, Error: "Query Error"})
+        return res.json({Status: true, Result: result})
+    })
+})
+
+router.post('/add_category', (req, res) => {
+    const sql = "INSERT INTO category (`name`) VALUES (?)"
+    con.query(sql, [req.body.category], (err, result) => {
+        if(err) return res.json({Status: false, Error: "Query Error"})
+        return res.json({Status: true})
+    })
+})
+
+
 //
 //can add category here
 
@@ -43,15 +61,25 @@ router.post('add_newevent', (req, res) => {
     });
 });
 
+// get events
+router.get('/event', (req, res) => {
+    const sql = "SELECT * FROM event";
+    con.query(sql, (err, result) => {
+        if(err) return res.json({Status: false, Error: "Query Error"})
+        return res.json({Status: true, Result: result})
+    })
+})
 
-// router.get('/event/:id', (req, res) => {
-//     const id = req.params.id;
-//     const sql = "SELECT * FROM event WHERE id = ?";
-//     con.query(sql,[id], (err, result) => {
-//         if(err) return res.json({Status: false, Error: "Query Error"})
-//         return res.json({Status: true, Result: result})
-//     })
-// })
+
+//get by event id
+router.get('/event/:id', (req, res) => {
+    const id = req.params.id;
+    const sql = "SELECT * FROM event WHERE id = ?";
+    con.query(sql,[id], (err, result) => {
+        if(err) return res.json({Status: false, Error: "Query Error"})
+        return res.json({Status: true, Result: result})
+    })
+})
 
 router.put('/edit_event/:id', (req, res) => {
     const id = req.params.id;
@@ -73,9 +101,9 @@ router.put('/edit_event/:id', (req, res) => {
     })
 })
 
-router.delete('/delete_employee/:id', (req, res) => {
+router.delete('/delete_event/:id', (req, res) => {
     const id = req.params.id;
-    const sql = "delete from employee where id = ?"
+    const sql = "delete from events where id = ?"
     con.query(sql,[id], (err, result) => {
         if(err) return res.json({Status: false, Error: "Query Error"+err})
         return res.json({Status: true, Result: result})
