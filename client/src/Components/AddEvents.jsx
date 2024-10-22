@@ -11,23 +11,13 @@ const AddEvents = () => {
     ending_time: '',
     event_location: '',
     event_description: '',
-    category_id: "",
     
   });
-  const [category, setCategory] = useState([]);
+  
   const navigate = useNavigate()
 
   useEffect(() => {
-    axios
-      .get("http://localhost:3000/auth/category")
-      .then((result) => {
-        if (result.data.Status) {
-          setCategory(result.data.Result);
-        } else {
-          alert(result.data.Error);
-        }
-      })
-      .catch((err) => console.log(err));
+    
   }, []);
 
   const handleSubmit = (e) => {
@@ -40,7 +30,6 @@ const AddEvents = () => {
     formData.append('ending_time', events.ending_time);
     formData.append('event_location', events.event_location);
     formData.append('event_description', events.event_description);
-    formData.append('category_id', events.category_id);
 
     axios.post('http://localhost:3000/auth/add_events', formData)
     .then(result => {
@@ -128,17 +117,6 @@ const AddEvents = () => {
                 setEvents({ ...events, ending_time: e.target.value })
               }
             />
-          </div>
-          <div className="col-12">
-            <label for="category" className="form-label">
-              Category
-            </label>
-            <select name="category" id="category" className="form-select"
-                onChange={(e) => setEvents({...events, category_id: e.target.value})}>
-              {category.map((c) => {
-                return <option value={c.id}>{c.name}</option>;
-              })}
-            </select>
           </div>
           
           <div className="col-12">
