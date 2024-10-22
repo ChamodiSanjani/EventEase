@@ -3,19 +3,19 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 
-const EventDetail = () => {
-    const [employee, setEmployee] = useState([])
+const EventDetails = () => {
+    const [events, setEvents] = useState([])
     const {id} = useParams()
     const navigate = useNavigate()
     useEffect(() => {
-        axios.get('http://localhost:3000/employee/detail/'+id)
+        axios.get('http://localhost:3000/events/details/'+id)
         .then(result => {
-            setEmployee(result.data[0])
+            setEvents(result.data[0])
         })
         .catch(err => console.log(err))
     }, [])
     const handleLogout = () => {
-        axios.get('http://localhost:3000/employee/logout')
+        axios.get('http://localhost:3000/events/logout')
         .then(result => {
           if(result.data.Status) {
             localStorage.removeItem("valid")
@@ -26,14 +26,16 @@ const EventDetail = () => {
   return (
     <div>
         <div className="p-2 d-flex justify-content-center shadow">
-            <h4>Emoployee Management System</h4>
+            <h4>Events Management System</h4>
         </div>
         <div className='d-flex justify-content-center flex-column align-items-center mt-3'>
-            <img src={`http://localhost:3000/Images/`+employee.image} className='emp_det_image'/>
             <div className='d-flex align-items-center flex-column mt-5'>
-                <h3>Name: {employee.name}</h3>
-                <h3>Email: {employee.email}</h3>
-                <h3>Salary: ${employee.salary}</h3>
+                <h3>Name: {events.name}</h3>
+                <h3>Type: {events.type}</h3>
+                <h3>Time: {events.time}</h3>
+                <h3>Date: {events.date}</h3>
+                <h3>Location: {events.location}</h3>
+                <h3>Description: {events.description}</h3>
             </div>
             <div>
                 <button className='btn btn-primary me-2'>Edit</button>
@@ -44,4 +46,4 @@ const EventDetail = () => {
   )
 }
 
-export default EventDetail
+export default EventDetails
