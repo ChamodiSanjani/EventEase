@@ -26,9 +26,9 @@ router.post('/adminlogin', (req, res) => {
 
 //add new event
 router.post('add_newevent', (req, res) => {
-    const sql = "INSERT INTO events \
-    (`event_name`, `event_type`, `event_date`, `starting_time`, `ending_time`, `event_location`, `event_description`) \
-    VALUES (?)";
+    const sql = `INSERT INTO events \
+    (event_name, event_type, event_date, starting_time, ending_time, event_location, event_description) \
+    VALUES (?)`;
     const values = [event_name, event_type, event_date, starting_time, ending_time, event_location, event_description];
 
     con.query(sql, values, (err, result) => {
