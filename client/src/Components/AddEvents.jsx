@@ -3,14 +3,16 @@ import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AddEvents = () => {
-  const [employee, setEmployee] = useState({
-    name: "",
-    email: "",
-    password: "",
-    salary: "",
-    address: "",
+  const [events, setEvents] = useState({
+    event_name: '',
+    event_type: '',
+    event_date: '',
+    starting_time: '',
+    ending_time: '',
+    event_location: '',
+    event_description: '',
     category_id: "",
-    image: "",
+    
   });
   const [category, setCategory] = useState([]);
   const navigate = useNavigate()
@@ -31,18 +33,19 @@ const AddEvents = () => {
   const handleSubmit = (e) => {
     e.preventDefault()
     const formData = new FormData();
-    formData.append('name', employee.name);
-    formData.append('email', employee.email);
-    formData.append('password', employee.password);
-    formData.append('address', employee.address);
-    formData.append('salary', employee.salary);
-    formData.append('image', employee.image);
-    formData.append('category_id', employee.category_id);
+    formData.append('event_name', events.event_name);
+    formData.append('event_type', events.event_type);
+    formData.append('event_date', events.event_date);
+    formData.append('starting_time', events.starting_time);
+    formData.append('ending_time', events.ending_time);
+    formData.append('event_location', events.event_location);
+    formData.append('event_description', events.event_description);
+    formData.append('category_id', events.category_id);
 
-    axios.post('http://localhost:3000/auth/add_employee', formData)
+    axios.post('http://localhost:3000/auth/add_events', formData)
     .then(result => {
         if(result.data.Status) {
-            navigate('/dashboard/employee')
+            navigate('/dashboard/events')
         } else {
             alert(result.data.Error)
         }
@@ -53,76 +56,76 @@ const AddEvents = () => {
   return (
     <div className="d-flex justify-content-center align-items-center mt-3">
       <div className="p-3 rounded w-50 border">
-        <h3 className="text-center">Add Employee</h3>
+        <h3 className="text-center">Add Event</h3>
         <form className="row g-1" onSubmit={handleSubmit}>
           <div className="col-12">
-            <label for="inputName" className="form-label">
-              Name
+            <label for="inputEventName" className="form-label">
+              Event Name
             </label>
             <input
               type="text"
               className="form-control rounded-0"
-              id="inputName"
+              id="inputEventName"
               placeholder="Enter Name"
               onChange={(e) =>
-                setEmployee({ ...employee, name: e.target.value })
+                setEvents({ ...events, event_name: e.target.value })
               }
             />
           </div>
           <div className="col-12">
-            <label for="inputEmail4" className="form-label">
-              Email
-            </label>
-            <input
-              type="email"
-              className="form-control rounded-0"
-              id="inputEmail4"
-              placeholder="Enter Email"
-              autoComplete="off"
-              onChange={(e) =>
-                setEmployee({ ...employee, email: e.target.value })
-              }
-            />
-          </div>
-          <div className="col-12">
-            <label for="inputPassword4" className="form-label">
-              Password
-            </label>
-            <input
-              type="password"
-              className="form-control rounded-0"
-              id="inputPassword4"
-              placeholder="Enter Password"
-              onChange={(e) =>
-                setEmployee({ ...employee, password: e.target.value })
-              }
-            />
-            <label for="inputSalary" className="form-label">
-              Salary
+            <label for="inputEventType" className="form-label">
+              Event Type
             </label>
             <input
               type="text"
               className="form-control rounded-0"
-              id="inputSalary"
-              placeholder="Enter Salary"
+              id="inputEventType"
+              placeholder="Enter Event Type"
               autoComplete="off"
               onChange={(e) =>
-                setEmployee({ ...employee, salary: e.target.value })
+                setEvents({ ...events, event_type: e.target.value })
               }
             />
           </div>
           <div className="col-12">
-            <label for="inputAddress" className="form-label">
-              Address
+            <label for="inputEventDate" className="form-label">
+              Event Date
             </label>
             <input
-              type="text"
+              type="date"
               className="form-control rounded-0"
-              id="inputAddress"
-              placeholder="1234 Main St"
+              id="inputEventDate"
+              placeholder="Enter Event Date"
+              onChange={(e) =>
+                setEvents({ ...events, event_date: e.target.value })
+              }
+            />
+            <label for="inputStartingTime" className="form-label">
+            Starting Time
+            </label>
+            <input
+              type="time"
+              className="form-control rounded-0"
+              id="inputStartingTime"
+              placeholder="Enter Starting Time"
               autoComplete="off"
               onChange={(e) =>
-                setEmployee({ ...employee, address: e.target.value })
+                setEvents({ ...events, starting_time: e.target.value })
+              }
+            />
+          </div>
+          <div className="col-12">
+          <label for="inputEndingTime" className="form-label">
+            Ending Time
+            </label>
+            <input
+              type="time"
+              className="form-control rounded-0"
+              id="inputEndingTime"
+              placeholder="Enter Ending Time"
+              autoComplete="off"
+              onChange={(e) =>
+                setEvents({ ...events, ending_time: e.target.value })
               }
             />
           </div>
@@ -131,27 +134,16 @@ const AddEvents = () => {
               Category
             </label>
             <select name="category" id="category" className="form-select"
-                onChange={(e) => setEmployee({...employee, category_id: e.target.value})}>
+                onChange={(e) => setEvents({...events, category_id: e.target.value})}>
               {category.map((c) => {
                 return <option value={c.id}>{c.name}</option>;
               })}
             </select>
           </div>
-          <div className="col-12 mb-3">
-            <label className="form-label" for="inputGroupFile01">
-              Select Image
-            </label>
-            <input
-              type="file"
-              className="form-control rounded-0"
-              id="inputGroupFile01"
-              name="image"
-              onChange={(e) => setEmployee({...employee, image: e.target.files[0]})}
-            />
-          </div>
+          
           <div className="col-12">
             <button type="submit" className="btn btn-primary w-100">
-              Add Employee
+              Add Event
             </button>
           </div>
         </form>
