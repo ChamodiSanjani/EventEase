@@ -23,7 +23,6 @@ router.post('/adminlogin', (req, res) => {
     });
 });
 
-
 router.get('/category', (req, res) => {
     const sql = "SELECT * FROM category";
     con.query(sql, (err, result) => {
@@ -40,15 +39,17 @@ router.post('/add_category', (req, res) => {
     })
 })
 
-
 //
 //can add category here
 
 //add new event
-router.post('add_newevent', (req, res) => {
+router.post('/add_newevent', (req, res) => {
+    const { event_name, event_type, event_date, starting_time, ending_time, event_location, event_description } = req.body;
+    
     const sql = "INSERT INTO events \
     (`event_name`, `event_type`, `event_date`, `starting_time`, `ending_time`, `event_location`, `event_description`) \
-    VALUES (?)";
+    VALUES (?, ?, ?, ?, ?, ?, ?)";
+
     const values = [event_name, event_type, event_date, starting_time, ending_time, event_location, event_description];
 
     con.query(sql, values, (err, result) => {
@@ -84,7 +85,7 @@ router.get('/event/:id', (req, res) => {
 router.put('/edit_event/:id', (req, res) => {
     const id = req.params.id;
     const sql = `UPDATE event 
-        set name = ?, email = ?, salary = ?, address = ?, category_id = ? 
+        set event_name = ?, event_type = ?, event_date = ?, starting_time = ?, ending_time = ?, event_location = ?, event_description = ?, category_id = ? 
         Where id = ?`
     const values = [
         req.body.event_name,
