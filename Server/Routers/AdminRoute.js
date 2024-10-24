@@ -43,25 +43,30 @@ router.post('/add_category', (req, res) => {
 //can add category here
 
 //add new event
-router.post('/add_newevent', (req, res) => {
-    const { event_name, event_type, event_date, starting_time, ending_time, event_location, event_description } = req.body;
-    
-    const sql = "INSERT INTO events \
-    (`event_name`, `event_type`, `event_date`, `starting_time`, `ending_time`, `event_location`, `event_description`) \
-    VALUES (?, ?, ?, ?, ?, ?, ?)";
+router.post('/add_event', (req, res) => {
+    console.log("hello")
+    const { event_name, event_type, event_date, starting_time, ending_time, event_location, event_description, category_id } = req.body;
 
-    const values = [event_name, event_type, event_date, starting_time, ending_time, event_location, event_description];
+    // Check if all fields are provided
+    if (!event_name || !event_type || !event_date || !starting_time || !ending_time || !event_location || !event_description || !category_id) {
+        return res.status(400).json({ Status: false, Error: "Please fill all fields" });
+    }
 
+    // Prepare SQL query
+    const sql = "INSERT INTO event (event_name, event_type, event_date, starting_time, ending_time, event_location, event_description, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+    const values = [event_name, event_type, event_date, starting_time, ending_time, event_location, event_description, category_id];
+
+    // Execute query
     con.query(sql, values, (err, result) => {
         if (err) {
             console.error("Error inserting event: ", err);
-            return res.status(500).json({ message: "Server error while adding event" });
+            return res.status(500).json({ Status: false, Error: "Server error while adding event" });
         }
 
-        res.status(200).json({ message: "Event added successfully", eventId: result.insertId });
+        // Successful insert
+        return res.status(200).json({ Status: true, message: "Event added successfully", eventId: result.insertId });
     });
 });
-
 // get events
 router.get('/event', (req, res) => {
     const sql = "SELECT * FROM event";

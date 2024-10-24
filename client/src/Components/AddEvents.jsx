@@ -1,6 +1,5 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import { startTransition } from "react";
 import { useNavigate } from "react-router-dom";
 
 const AddEvents = () => {
@@ -12,10 +11,13 @@ const AddEvents = () => {
     ending_time: "",
     event_location: "",
     event_description: "",
+    category_id: ""
   });
-  const [category, setCategory] = useState([]);
-  const navigate = useNavigate()
 
+  const [category, setCategory] = useState([]);
+  const navigate = useNavigate();
+
+  // Fetch categories for event types
   useEffect(() => {
     axios
       .get("http://localhost:3000/auth/category")
@@ -30,27 +32,22 @@ const AddEvents = () => {
   }, []);
 
   const handleSubmit = (e) => {
-    e.preventDefault()
-    const formData = new FormData();
-    formData.append('event_name', event.event_name);
-    formData.append('event_type', event.event_type);
-    formData.append('event_date', event.event_date);
-    formData.append('starting_time', event.starting_time);
-    formData.append('ending_time', event.ending_time);
-    formData.append('event_location', event.event_location);
-    formData.append('event_description', event.event_description);
-    formData.append('category_id', event.category_id);
+    e.preventDefault();
 
-    axios.post('http://localhost:3000/auth/add_event', formData)
-    .then(result => {
-        if(result.data.Status) {
-            navigate('/dashboard/events')
+    // Log the event data for debugging
+    console.log(event);
+
+    // Send the event data to the server
+    axios.post('http://localhost:3000/auth/add_event', event)
+      .then(result => {
+        if (result.data.Status) {
+          navigate('/dashboard/events');
         } else {
-            alert(result.data.Error)
+          alert(result.data.Error);
         }
-    })
-    .catch(err => console.log(err))
-  }
+      })
+      .catch(err => console.log(err));
+  };
 
   return (
     <div className="d-flex justify-content-center align-items-center mt-3">
@@ -58,109 +55,82 @@ const AddEvents = () => {
         <h3 className="text-center">Add Event</h3>
         <form className="row g-1" onSubmit={handleSubmit}>
           <div className="col-12">
-            <label for="inputName" className="form-label">
-            Event Name
-            </label>
+            <label htmlFor="inputName" className="form-label">Event Name</label>
             <input
               type="text"
               className="form-control rounded-0"
               id="inputName"
               placeholder="Enter Name"
-              onChange={(e) =>
-                setEvent({ ...event_name, name: e.target.value })
-              }
+              onChange={(e) => setEvent({ ...event, event_name: e.target.value })}
+              value={event.event_name} // Add value to track form field
             />
-            
           </div>
           <div className="col-12">
-            <label for="event_type" className="form-label">
-            Event Type
-            </label>
-            <select name="category" id="category" className="form-select"
-                onChange={(e) => setEvent({...event_type, category_id: e.target.value})}>
-              {category.map((c) => {
-                return <option value={c.id}>{c.name}</option>;
-              })}
+            <label htmlFor="event_type" className="form-label">Event Type</label>
+            <select
+              name="category"
+              id="category"
+              className="form-select"
+              onChange={(e) => setEvent({ ...event, category_id: e.target.value })}
+              value={event.category_id} // Add value to track form field
+            >
+              <option value="">Select Category</option>
+              {category.map((c) => (
+                <option key={c.id} value={c.id}>{c.name}</option>
+              ))}
             </select>
-            
           </div>
           <div className="col-12 mt-3">
-            <label htmlFor="inputDate" className="form-label">
-            Event Date
-            </label>
+            <label htmlFor="inputDate" className="form-label">Event Date</label>
             <input
               type="date"
               className="form-control rounded-0"
               id="inputDate"
-              onChange={(e) => setEvent({ ...event_date, date: e.target.value })
-              }
+              onChange={(e) => setEvent({ ...event, event_date: e.target.value })}
+              value={event.event_date} // Add value to track form field
             />
-
-<div className="col-12">
-  
-
           </div>
           <div className="col-12">
-  <label htmlFor="inputTime" className="form-label">
-    Starting Time
-  </label>
-  <input
-    type="time"
-    className="form-control rounded-0"
-    id="inputTime"
-    onChange={(e) =>
-      setEvent({ ...starting_time, time: e.target.value })
-    }
+            <label htmlFor="inputStartTime" className="form-label">Starting Time</label>
+            <input
+              type="time"
+              className="form-control rounded-0"
+              id="inputStartTime"
+              onChange={(e) => setEvent({ ...event, starting_time: e.target.value })}
+              value={event.starting_time} // Add value to track form field
             />
-          </div>
-
           </div>
           <div className="col-12">
-  <label htmlFor="inputTime" className="form-label">
-    Ending Time
-  </label>
-  <input
-    type="time"
-    className="form-control rounded-0"
-    id="inputTime"
-    onChange={(e) =>
-      setEvent({ ...ending_time, time: e.target.value })
-    }
+            <label htmlFor="inputEndTime" className="form-label">Ending Time</label>
+            <input
+              type="time"
+              className="form-control rounded-0"
+              id="inputEndTime"
+              onChange={(e) => setEvent({ ...event, ending_time: e.target.value })}
+              value={event.ending_time} // Add value to track form field
             />
-</div>
-            <div className="col-12">
-            
-            
-</div>
-<div className="col-12">
-            <label for="inputName" className="form-label">
-            Event Location
-            </label>
+          </div>
+          <div className="col-12">
+            <label htmlFor="inputLocation" className="form-label">Event Location</label>
             <input
               type="text"
               className="form-control rounded-0"
-              id="inputName"
-              placeholder="Enter Name"
-              onChange={(e) =>
-                setEvent({ ...event_location, name: e.target.value })
-              }
+              id="inputLocation"
+              placeholder="Enter Location"
+              onChange={(e) => setEvent({ ...event, event_location: e.target.value })}
+              value={event.event_location} // Add value to track form field
             />
           </div>
-
           <div className="col-12">
-            <label for="inputName" className="form-label">
-            Event Description
-            </label>
+            <label htmlFor="inputDescription" className="form-label">Event Description</label>
             <input
               type="text"
               className="form-control rounded-0"
-              id="inputName"
-              placeholder="Enter Name"
-              onChange={(e) =>
-                setEvent({ ...event_ds, name: e.target.value })
-              }
+              id="inputDescription"
+              placeholder="Enter Description"
+              onChange={(e) => setEvent({ ...event, event_description: e.target.value })}
+              value={event.event_description} // Add value to track form field
             />
-
           </div>
           <div className="col-12">
             <button type="submit" className="btn btn-primary w-100">
