@@ -1,7 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom'; // Make sure to import Link for navigation
 
-
 const Home = () => (
   <main>
     <section className="intro" style={{ backgroundImage: 'url(https://www.excellsecurity.com.au/wp-content/uploads/2017/10/3-Tips-for-Effective-Crowd-Control.jpg)' }}>
@@ -32,7 +31,6 @@ const Home = () => (
             <img src="https://i.pinimg.com/550x/d4/1a/c7/d41ac756e479e000c97742ecc47d8fa3.jpg" alt="Gallery Image 3" />
             <Link to="/my-events" className="button-overlay">My Events</Link>
           </div>
-          
         </div>
       </div>
     </section>
