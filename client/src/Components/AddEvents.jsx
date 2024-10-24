@@ -35,10 +35,10 @@ const AddEvents = () => {
     e.preventDefault();
 
     // Log the event data for debugging
-    console.log(event);
+  console.log("Event Data being sent: ", event);
 
     // Send the event data to the server
-    axios.post('http://localhost:3000/add_event', event, {
+    axios.post('http://localhost:3000/auth/add_event', event, {
       headers: {
         'Content-Type': 'application/json'
       }
