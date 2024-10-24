@@ -15,6 +15,7 @@ import UserLogin from './Components/UserLogin'
 import EventDetails from './Components/EventDetails'
 import PrivateRoute from './Components/PrivateRoute'
 
+
 function App() {
   return (
     <BrowserRouter>
