@@ -109,7 +109,7 @@ router.put('/edit_event/:id', (req, res) => {
 
 router.delete('/delete_event/:id', (req, res) => {
     const id = req.params.id;
-    const sql = "delete from events where id = ?"
+    const sql = "delete from event where id = ?"
     con.query(sql,[id], (err, result) => {
         if(err) return res.json({Status: false, Error: "Query Error"+err})
         return res.json({Status: true, Result: result})
