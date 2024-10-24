@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Events = () => {
-  const [employee, setEvent] = useState([]);
+  const [event, setEvent] = useState([]);
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -50,18 +50,16 @@ const Events = () => {
             </tr>
           </thead>
           <tbody>
-            {employee.map((e) => (
+            {event.map((e) => (
               <tr>
-                <td>{e.name}</td>
-                <td>
-                  <img
-                    src={`http://localhost:3000/Images/` + e.image}
-                    className="employee_image"
-                  />
-                </td>
-                <td>{e.email}</td>
-                <td>{e.address}</td>
-                <td>{e.salary}</td>
+                <td>{e.event_name}</td>
+                <td>{e.event_type}</td>
+                <td>{e.event_date}</td>
+                <td>{e.starting_time}</td>
+                <td>{e.ending_time}</td>
+                <td>{e.event_location}</td>
+                <td>{e.event_description}</td>
+              
                 <td>
                   <Link
                     to={`/dashboard/edit_event/` + e.id}
