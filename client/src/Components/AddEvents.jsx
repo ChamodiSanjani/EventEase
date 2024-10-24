@@ -38,15 +38,19 @@ const AddEvents = () => {
     console.log(event);
 
     // Send the event data to the server
-    axios.post('http://localhost:3000/auth/add_event', event)
-      .then(result => {
-        if (result.data.Status) {
-          navigate('/dashboard/events');
-        } else {
-          alert(result.data.Error);
-        }
-      })
-      .catch(err => console.log(err));
+    axios.post('http://localhost:3000/add_event', event, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(result => {
+      if (result.data.Status) {
+        navigate('/dashboard/events');
+      } else {
+        alert(result.data.Error);
+      }
+    })
+    .catch(err => console.log(err));
   };
 
   return (
@@ -72,7 +76,7 @@ const AddEvents = () => {
               id="category"
               className="form-select"
               onChange={(e) => setEvent({ ...event, category_id: e.target.value })}
-              value={event.category_id} // Add value to track form field
+              value={event.category_id}  // Use category_id instead of event_type
             >
               <option value="">Select Category</option>
               {category.map((c) => (
