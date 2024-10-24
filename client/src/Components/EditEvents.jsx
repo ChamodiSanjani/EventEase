@@ -4,12 +4,15 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 const EditEvents = () => {
     const {id} = useParams()
-    const [employee, setEmployee] = useState({
-        name: "",
-        email: "",
-        salary: "",
-        address: "",
-        category_id: "",
+    const [event, setEvent] = useState({
+      event_name: "",
+      event_type: "",
+      event_date: "",
+      starting_time: "",
+      ending_time: "",
+      event_location: "",
+      event_description: "",
+      category_id: ""
       });
       const [category, setCategory] = useState([])
       const navigate = useNavigate()
@@ -26,23 +29,26 @@ const EditEvents = () => {
 
         axios.get('http://localhost:3000/auth/employee/'+id)
         .then(result => {
-            setEmployee({
-                ...employee,
-                name: result.data.Result[0].name,
-                email: result.data.Result[0].email,
-                address: result.data.Result[0].address,
-                salary: result.data.Result[0].salary,
-                category_id: result.data.Result[0].category_id,
+            setEvent({
+                ...event,
+                event_name: result.data.Result[0].event_name,
+                event_type: result.data.Result[0].event_type,
+                event_date: result.data.Result[0].event_date,
+                starting_time: result.data.Result[0].starting_time,
+                ending_time: result.data.Result[0].ending_time,
+                event_location: result.data.Result[0].event_location, 
+                event_description: result.data.Result[0].event_description,
+                category_id: result.data.Result[0].category_id
             })
         }).catch(err => console.log(err))
     }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.put('http://localhost:3000/auth/edit_employee/'+id, employee)
+        axios.put('http://localhost:3000/auth/edit_event/'+id, event)
         .then(result => {
             if(result.data.Status) {
-                navigate('/dashboard/employee')
+                navigate('/dashboard/event')
             } else {
                 alert(result.data.Error)
             }
@@ -52,81 +58,118 @@ const EditEvents = () => {
   return (
     <div className="d-flex justify-content-center align-items-center mt-3">
       <div className="p-3 rounded w-50 border">
-        <h3 className="text-center">Edit Employee</h3>
+        <h3 className="text-center">Edit Event</h3>
         <form className="row g-1" onSubmit={handleSubmit}>
           <div className="col-12">
             <label for="inputName" className="form-label">
-              Name
+              Event Name
             </label>
             <input
               type="text"
               className="form-control rounded-0"
               id="inputName"
-              placeholder="Enter Name"
-              value={employee.name}
+              placeholder="Enter Event Name"
+              value={event.event_name}
               onChange={(e) =>
-                setEmployee({ ...employee, name: e.target.value })
+                setEvent({ ...event, event_name: e.target.value })
               }
             />
           </div>
           <div className="col-12">
-            <label for="inputEmail4" className="form-label">
-              Email
+            <label for="event_type" className="form-label">
+              Event Type
             </label>
             <input
-              type="email"
+              type="text"
               className="form-control rounded-0"
-              id="inputEmail4"
-              placeholder="Enter Email"
+              id="event_type"
+              placeholder="Enter Event Type"
               autoComplete="off"
-              value={employee.email}
+              value={event.event_type}
               onChange={(e) =>
-                setEmployee({ ...employee, email: e.target.value })
+                setEvent({ ...event, event_type: e.target.value })
               }
             />
           </div>
           <div className='col-12'>
-            <label for="inputSalary" className="form-label">
-              Salary
+            <label for="inputDate" className="form-label">
+              Date
             </label>
             <input
-              type="text"
+              type="date"
               className="form-control rounded-0"
-              id="inputSalary"
-              placeholder="Enter Salary"
+              id="inputDate"
+              
               autoComplete="off"
-              value={employee.salary}
+              value={event.event_date}
               onChange={(e) =>
-                setEmployee({ ...employee, salary: e.target.value })
+                setEvent({ ...event, event_date: e.target.value })
               }
             />
           </div>
           <div className="col-12">
-            <label for="inputAddress" className="form-label">
-              Address
+            <label for="inputStartTime" className="form-label">
+              Starting Time
             </label>
             <input
-              type="text"
+              type="time"
               className="form-control rounded-0"
-              id="inputAddress"
-              placeholder="1234 Main St"
+              id="inputStartTime"
+              
               autoComplete="off"
-              value={employee.address}
+              value={event.starting_time}
               onChange={(e) =>
-                setEmployee({ ...employee, address: e.target.value })
+                setEvent({ ...event, starting_time: e.target.value })
               }
             />
           </div>
           <div className="col-12">
-            <label for="category" className="form-label">
-              Category
+          <label for="inputEndTime" className="form-label">
+              Ending Time
             </label>
-            <select name="category" id="category" className="form-select"
-                onChange={(e) => setEmployee({...employee, category_id: e.target.value})}>
-              {category.map((c) => {
-                return <option value={c.id}>{c.name}</option>;
-              })}
-            </select>
+            <input
+              type="time"
+              className="form-control rounded-0"
+              id="inputEndTime"
+              
+              autoComplete="off"
+              value={event.ending_time}
+              onChange={(e) =>
+                setEvent({ ...event, ending_time: e.target.value })
+              }
+            />
+          </div>
+          <div className="col-12">
+            <label for="inputLocation" className="form-label">
+              Location
+            </label>
+            <input
+              type="text"
+              className="form-control rounded-0"
+              id="inputLocation"
+              placeholder="Enter Location"
+              autoComplete="off"
+              value={event.event_type}
+              onChange={(e) =>
+                setEvent({ ...event, event_type: e.target.value })
+              }
+            />
+          </div>
+          <div className="col-12">
+            <label for="inputDescription" className="form-label">
+              Description
+            </label>
+            <input
+              type="text"
+              className="form-control rounded-0"
+              id="inputDescription"
+              placeholder="Enter Description"
+              autoComplete="off"
+              value={event.event_type}
+              onChange={(e) =>
+                setEvent({ ...event, event_type: e.target.value })
+              }
+            />
           </div>
           
           <div className="col-12">
