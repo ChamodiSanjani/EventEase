@@ -23,6 +23,7 @@ router.post('/adminlogin', (req, res) => {
     });
 });
 
+
 router.get('/category', (req, res) => {
     const sql = "SELECT * FROM category";
     con.query(sql, (err, result) => {
