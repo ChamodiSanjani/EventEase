@@ -45,16 +45,16 @@ router.post('/add_category', (req, res) => {
 //add new event
 router.post('/add_event', (req, res) => {
     console.log("hello")
-    const { event_name, event_type, event_date, starting_time, ending_time, event_location, event_description, category_id } = req.body;
+    const { event_name, event_type, event_date, starting_time, ending_time, event_location, event_description } = req.body;
 
     // Check if all fields are provided
-    if (!event_name || !event_type || !event_date || !starting_time || !ending_time || !event_location || !event_description || !category_id) {
+    if (!event_name || !event_type || !event_date || !starting_time || !ending_time || !event_location || !event_description) {
         return res.status(400).json({ Status: false, Error: "Please fill all fields" });
     }
 
     // Prepare SQL query
-    const sql = "INSERT INTO event (event_name, event_type, event_date, starting_time, ending_time, event_location, event_description, category_id) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-    const values = [event_name, event_type, event_date, starting_time, ending_time, event_location, event_description, category_id];
+    const sql = "INSERT INTO event (event_name, event_type, event_date, starting_time, ending_time, event_location, event_description) VALUES (?, ?, ?, ?, ?, ?, ?)";
+    const values = [event_name, event_type, event_date, starting_time, ending_time, event_location, event_description];
 
     // Execute query
     con.query(sql, values, (err, result) => {
@@ -90,7 +90,7 @@ router.get('/event/:id', (req, res) => {
 router.put('/edit_event/:id', (req, res) => {
     const id = req.params.id;
     const sql = `UPDATE event 
-        set event_name = ?, event_type = ?, event_date = ?, starting_time = ?, ending_time = ?, event_location = ?, event_description = ?, category_id = ? 
+        set event_name = ?, event_type = ?, event_date = ?, starting_time = ?, ending_time = ?, event_location = ?, event_description = ? 
         Where id = ?`
     const values = [
         req.body.event_name,
