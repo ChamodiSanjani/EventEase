@@ -11,7 +11,6 @@ const AddEvents = () => {
     ending_time: "",
     event_location: "",
     event_description: "",
-    category_id: ""
   });
 
   const [category, setCategory] = useState([]);
@@ -38,7 +37,7 @@ const AddEvents = () => {
     console.log(event);
 
     // Send the event data to the server
-    axios.post('http://localhost:3000/add_event', event, {
+    axios.post('http://localhost:3000/auth/add_event', event, {
       headers: {
         'Content-Type': 'application/json'
       }
@@ -51,6 +50,7 @@ const AddEvents = () => {
       }
     })
     .catch(err => console.log(err));
+    
   };
 
   return (
@@ -70,19 +70,15 @@ const AddEvents = () => {
             />
           </div>
           <div className="col-12">
-            <label htmlFor="event_type" className="form-label">Event Type</label>
-            <select
-              name="category"
-              id="category"
-              className="form-select"
-              onChange={(e) => setEvent({ ...event, category_id: e.target.value })}
-              value={event.category_id}  // Use category_id instead of event_type
-            >
-              <option value="">Select Category</option>
-              {category.map((c) => (
-                <option key={c.id} value={c.id}>{c.name}</option>
-              ))}
-            </select>
+            <label htmlFor="inputName" className="form-label">Event Type</label>
+            <input
+              type="text"
+              className="form-control rounded-0"
+              id="inputType"
+              placeholder="Event Type"
+              onChange={(e) => setEvent({ ...event, event_type: e.target.value })}
+              value={event.event_type} // Add value to track form field
+            />
           </div>
           <div className="col-12 mt-3">
             <label htmlFor="inputDate" className="form-label">Event Date</label>
