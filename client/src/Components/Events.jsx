@@ -3,15 +3,15 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Events = () => {
-  const [employee, setEmployee] = useState([]);
+  const [employee, setEvent] = useState([]);
   const navigate = useNavigate()
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/auth/employee")
+      .get("http://localhost:3000/auth/events")
       .then((result) => {
         if (result.data.Status) {
-          setEmployee(result.data.Result);
+          setEvent(result.data.Result);
         } else {
           alert(result.data.Error);
         }
@@ -19,7 +19,7 @@ const Events = () => {
       .catch((err) => console.log(err));
   }, []);
   const handleDelete = (id) => {
-    axios.delete('http://localhost:3000/auth/delete_employee/'+id)
+    axios.delete('http://localhost:3000/auth/delete_event/'+id)
     .then(result => {
         if(result.data.Status) {
             window.location.reload()
@@ -31,21 +31,22 @@ const Events = () => {
   return (
     <div className="px-5 mt-3">
       <div className="d-flex justify-content-center">
-        <h3>Employee List</h3>
+        <h3>Event List</h3>
       </div>
-      <Link to="/dashboard/add_employee" className="btn btn-success">
-        Add Employee
+      <Link to="/dashboard/add_event" className="btn btn-success">
+        Add Event
       </Link>
       <div className="mt-3">
         <table className="table">
           <thead>
             <tr>
-              <th>Name</th>
-              <th>Image</th>
-              <th>Email</th>
-              <th>Address</th>
-              <th>Salary</th>
-              <th>Action</th>
+              <th>Event Name</th>
+              <th>Event Type</th>
+              <th>Event Date</th>
+              <th>Starting Time</th>
+              <th>Ending Time</th>
+              <th>Event Location</th>
+              <th>Event Description</th>
             </tr>
           </thead>
           <tbody>
@@ -63,7 +64,7 @@ const Events = () => {
                 <td>{e.salary}</td>
                 <td>
                   <Link
-                    to={`/dashboard/edit_employee/` + e.id}
+                    to={`/dashboard/edit_event/` + e.id}
                     className="btn btn-info btn-sm me-2"
                   >
                     Edit

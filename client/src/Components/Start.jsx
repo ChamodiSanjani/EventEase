@@ -1,6 +1,7 @@
 import axios from "axios";
 import React, { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+
 useEffect
 
 const Start = () => {
@@ -25,7 +26,7 @@ const Start = () => {
         <h2 className="text-center">Login As</h2>
         <div className="d-flex justify-content-between mt-5 mb-2">
           <button type="button" className="btn btn-primary" onClick={() => {navigate('/employee_login')}}>
-            Employee
+            Event Organizer
           </button>
           <button type="button" className="btn btn-success" onClick={() => {navigate('/adminlogin')}}>
             Admin

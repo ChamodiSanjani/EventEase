@@ -43,7 +43,7 @@ const Dashboard = () => {
               </li>
               <li className="w-100">
                 <Link
-                  to="/dashboard/employee"
+                  to="/dashboard/events"
                   className="nav-link px-0 align-middle text-white"
                 >
                   <i className="fs-4 bi-people ms-2"></i>
