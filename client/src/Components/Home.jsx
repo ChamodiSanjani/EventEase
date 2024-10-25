@@ -21,15 +21,15 @@ const Home = () => (
         <div className="images">
           <div className="image-container">
             <img src="https://i.pinimg.com/736x/3c/0b/24/3c0b24f85f95481e64f48bf3f365c4b1.jpg" alt="Gallery Image 1" />
-            <Link to="/data-collection" className="button-overlay">Event Collection</Link>
+            <Link to="/dashboard/events" className="button-overlay">Event Collection</Link>
           </div>
           <div className="image-container">
             <img src="https://img.freepik.com/premium-photo/wedding-reception-with-lights-table-with-lights-flowers_1090087-93768.jpg" alt="Gallery Image 2" />
-            <Link to="/create-new-event" className="button-overlay">Create New Event</Link>
+            <Link to="/dashboard/add_event" className="button-overlay">Create New Event</Link>
           </div>
           <div className="image-container">
             <img src="https://i.pinimg.com/550x/d4/1a/c7/d41ac756e479e000c97742ecc47d8fa3.jpg" alt="Gallery Image 3" />
-            <Link to="/my-events" className="button-overlay">My Events</Link>
+            <Link to="/dashboard/add_category" className="button-overlay">Add Category</Link>
           </div>
         </div>
       </div>

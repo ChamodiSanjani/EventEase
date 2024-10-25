@@ -1,6 +1,6 @@
 import express from "express";
 import cors from 'cors'
-import { adminRouter} from "./Routers/AdminRoute.js";
+import  adminRouter from "./Routers/AdminRoute.js";
 //convert the data to json format when passing through the frontend
 const app = express()
 app.use(cors({

@@ -57,7 +57,7 @@ router.post('/add_category', (req, res) => {
 });
 
 // Add event
-router.post('/auth/add_event', (req, res) => {
+router.post('/add_event', (req, res) => {
     const { event_name, event_type, event_date, starting_time, ending_time, event_location, event_description, category_id } = req.body;
 
     if (!event_name || !event_type || !event_date || !starting_time || !ending_time || !event_location || !event_description || !category_id) {
@@ -77,7 +77,7 @@ router.post('/auth/add_event', (req, res) => {
 });
 
 // Fetch all events with pagination
-router.get('/auth/events', (req, res) => {
+router.get('/events', (req, res) => {
     const { page = 1, limit = 10 } = req.query;
     const offset = (page - 1) * limit;
 
