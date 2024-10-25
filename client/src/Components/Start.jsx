@@ -7,18 +7,7 @@ useEffect
 const Start = () => {
     const navigate = useNavigate()
   axios.defaults.withCredentials = true;
-  useEffect(() => {
-    axios.get('http://localhost:3000/verify')
-    .then(result => {
-      if(result.data.Status) {
-        if(result.data.role === "admin") {
-          navigate('/dashboard')
-        } else {
-          navigate('/employee_detail/'+result.data.id)
-        }
-      }
-    }).catch(err =>console.log(err))
-  }, [])
+  
 
   return (
     <div className="d-flex justify-content-center align-items-center vh-100 loginPage">
