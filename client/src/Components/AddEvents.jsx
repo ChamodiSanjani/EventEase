@@ -37,23 +37,20 @@ const AddEvents = () => {
     // Log the event data for debugging
     console.log(event);
 
-    // Check if all fields are filled
-    const { event_name, event_type, event_date, starting_time, ending_time, event_location, event_description, category_id } = event;
-    if (!event_name || !event_type || !event_date || !starting_time || !ending_time || !event_location || !event_description || !category_id) {
-      alert("Please fill all the fields.");
-      return;
-    }
-
     // Send the event data to the server
-    axios.post('http://localhost:3000/auth/add_event', event)
-      .then(result => {
-        if (result.data.Status) {
-          navigate('/dashboard/events');
-        } else {
-          alert(result.data.Error);
-        }
-      })
-      .catch(err => console.log(err));
+    axios.post('http://localhost:3000/auth/add_event', event, {
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+    .then(result => {
+      if (result.data.Status) {
+        navigate('/dashboard/events');
+      } else {
+        alert(result.data.Error);
+      }
+    })
+    .catch(err => console.log(err));
   };
 
   return (
@@ -69,21 +66,21 @@ const AddEvents = () => {
               id="inputName"
               placeholder="Enter Name"
               onChange={(e) => setEvent({ ...event, event_name: e.target.value })}
-              value={event.event_name}
+              value={event.event_name} // Add value to track form field
             />
           </div>
           <div className="col-12">
-            <label htmlFor="category" className="form-label">Event Type</label>
+            <label htmlFor="event_type" className="form-label">Event Type</label>
             <select
               name="category"
               id="category"
               className="form-select"
-              onChange={(e) => setEvent({ ...event, event_type: e.target.value, category_id: e.target.value })}
-              value={event.category_id}
+              onChange={(e) => setEvent({ ...event, event_type: e.target.value })}
+              value={event.event_type}  // Use category_id instead of event_type
             >
               <option value="">Select Category</option>
               {category.map((c) => (
-                <option key={c.id} value={c.id}>{c.name}</option>
+                <option key={c.id} value={c.name}>{c.name}</option>
               ))}
             </select>
           </div>
@@ -94,7 +91,7 @@ const AddEvents = () => {
               className="form-control rounded-0"
               id="inputDate"
               onChange={(e) => setEvent({ ...event, event_date: e.target.value })}
-              value={event.event_date}
+              value={event.event_date} // Add value to track form field
             />
           </div>
           <div className="col-12">
@@ -104,7 +101,7 @@ const AddEvents = () => {
               className="form-control rounded-0"
               id="inputStartTime"
               onChange={(e) => setEvent({ ...event, starting_time: e.target.value })}
-              value={event.starting_time}
+              value={event.starting_time} // Add value to track form field
             />
           </div>
           <div className="col-12">
@@ -114,7 +111,7 @@ const AddEvents = () => {
               className="form-control rounded-0"
               id="inputEndTime"
               onChange={(e) => setEvent({ ...event, ending_time: e.target.value })}
-              value={event.ending_time}
+              value={event.ending_time} // Add value to track form field
             />
           </div>
           <div className="col-12">
@@ -125,7 +122,7 @@ const AddEvents = () => {
               id="inputLocation"
               placeholder="Enter Location"
               onChange={(e) => setEvent({ ...event, event_location: e.target.value })}
-              value={event.event_location}
+              value={event.event_location} // Add value to track form field
             />
           </div>
           <div className="col-12">
@@ -136,7 +133,7 @@ const AddEvents = () => {
               id="inputDescription"
               placeholder="Enter Description"
               onChange={(e) => setEvent({ ...event, event_description: e.target.value })}
-              value={event.event_description}
+              value={event.event_description} // Add value to track form field
             />
           </div>
           <div className="col-12">
