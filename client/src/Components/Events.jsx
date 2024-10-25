@@ -3,8 +3,13 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Events = () => {
+<<<<<<< HEAD
   const [events, setEvents] = useState([]); // Corrected the variable name
   const navigate = useNavigate();
+=======
+  const [event, setEvent] = useState([]);
+  const navigate = useNavigate()
+>>>>>>> ad81b83e95ea1cb5221fb63b3695897ea5856b19
 
   useEffect(() => {
     axios
@@ -54,15 +59,27 @@ const Events = () => {
             </tr>
           </thead>
           <tbody>
+<<<<<<< HEAD
             {events.map((e) => (
               <tr key={e.id}>
                 <td>{e.event_name}</td>
                 <td>{e.event_type}</td>
                 <td>{e.event_date.split('T')[0]}</td>
+=======
+            {event.map((e) => (
+              <tr>
+                <td>{e.event_name}</td>
+                <td>{e.event_type}</td>
+                <td>{e.event_date}</td>
+>>>>>>> ad81b83e95ea1cb5221fb63b3695897ea5856b19
                 <td>{e.starting_time}</td>
                 <td>{e.ending_time}</td>
                 <td>{e.event_location}</td>
                 <td>{e.event_description}</td>
+<<<<<<< HEAD
+=======
+              
+>>>>>>> ad81b83e95ea1cb5221fb63b3695897ea5856b19
                 <td>
                   <Link
                     to={`/dashboard/edit_event/${e.id}`}
