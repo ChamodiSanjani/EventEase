@@ -3,31 +3,34 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 
 const Events = () => {
-  const [employee, setEvent] = useState([]);
-  const navigate = useNavigate()
+  const [events, setEvents] = useState([]); // Corrected the variable name
+  const navigate = useNavigate();
 
   useEffect(() => {
     axios
-      .get("http://localhost:3000/auth/events")
+      .get("http://localhost:3000/auth/event")
       .then((result) => {
         if (result.data.Status) {
-          setEvent(result.data.Result);
+          setEvents(result.data.Result); // Corrected the setter
         } else {
           alert(result.data.Error);
         }
       })
       .catch((err) => console.log(err));
   }, []);
+
   const handleDelete = (id) => {
-    axios.delete('http://localhost:3000/auth/delete_event/'+id)
-    .then(result => {
-        if(result.data.Status) {
-            window.location.reload()
+    axios
+      .delete("http://localhost:3000/auth/delete_event/" + id)
+      .then((result) => {
+        if (result.data.Status) {
+          window.location.reload();
         } else {
-            alert(result.data.Error)
+          alert(result.data.Error);
         }
-    })
-  } 
+      });
+  };
+
   return (
     <div className="px-5 mt-3">
       <div className="d-flex justify-content-center">
@@ -47,24 +50,22 @@ const Events = () => {
               <th>Ending Time</th>
               <th>Event Location</th>
               <th>Event Description</th>
+              <th>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {employee.map((e) => (
-              <tr>
-                <td>{e.name}</td>
-                <td>
-                  <img
-                    src={`http://localhost:3000/Images/` + e.image}
-                    className="employee_image"
-                  />
-                </td>
-                <td>{e.email}</td>
-                <td>{e.address}</td>
-                <td>{e.salary}</td>
+            {events.map((e) => (
+              <tr key={e.id}>
+                <td>{e.event_name}</td>
+                <td>{e.event_type}</td>
+                <td>{e.event_date.split('T')[0]}</td>
+                <td>{e.starting_time}</td>
+                <td>{e.ending_time}</td>
+                <td>{e.event_location}</td>
+                <td>{e.event_description}</td>
                 <td>
                   <Link
-                    to={`/dashboard/edit_event/` + e.id}
+                    to={`/dashboard/edit_event/${e.id}`}
                     className="btn btn-info btn-sm me-2"
                   >
                     Edit

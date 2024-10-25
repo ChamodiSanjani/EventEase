@@ -1,143 +1,160 @@
-import axios from 'axios'
-import React, { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 const EditEvents = () => {
-    const {id} = useParams()
-    const [employee, setEmployee] = useState({
-        name: "",
-        email: "",
-        salary: "",
-        address: "",
-        category_id: "",
-      });
-      const [category, setCategory] = useState([])
-      const navigate = useNavigate()
+    const { id } = useParams();
+    const [event, setEvent] = useState({
+        event_name: "",
+        event_type: "",  // Add event_type to the state
+        event_date: "",
+        starting_time: "",
+        ending_time: "",
+        event_location: "",
+        event_description: "",
+        category_id: ""
+    });
+    const [category, setCategory] = useState([]);
+    const navigate = useNavigate();
 
-      useEffect(()=> {
+    useEffect(() => {
         axios.get('http://localhost:3000/auth/category')
-        .then(result => {
-            if(result.data.Status) {
-                setCategory(result.data.Result);
-            } else {
-                alert(result.data.Error)
-            }
-        }).catch(err => console.log(err))
+            .then(result => {
+                if (result.data.Status) {
+                    setCategory(result.data.Result);
+                } else {
+                    alert(result.data.Error);
+                }
+            }).catch(err => console.log(err));
 
-        axios.get('http://localhost:3000/auth/employee/'+id)
-        .then(result => {
-            setEmployee({
-                ...employee,
-                name: result.data.Result[0].name,
-                email: result.data.Result[0].email,
-                address: result.data.Result[0].address,
-                salary: result.data.Result[0].salary,
-                category_id: result.data.Result[0].category_id,
-            })
-        }).catch(err => console.log(err))
-    }, [])
+        axios.get('http://localhost:3000/auth/event/' + id)
+            .then(result => {
+                if (result.data.Status) {
+                    const eventData = result.data.Result[0];
+                    const formattedDate = eventData.event_date.split('T')[0];
+                    setEvent({
+                        event_name: result.data.Result[0].event_name,
+                        event_type: result.data.Result[0].event_type,  // Prefill event_type
+                        event_date: formattedDate,
+                        starting_time: result.data.Result[0].starting_time,
+                        ending_time: result.data.Result[0].ending_time,
+                        event_location: result.data.Result[0].event_location,
+                        event_description: result.data.Result[0].event_description,
+                        category_id: result.data.Result[0].category_id
+                    });
+                } else {
+                    alert(result.data.Error);
+                }
+            }).catch(err => console.log(err));
+    }, [id]);
 
     const handleSubmit = (e) => {
-        e.preventDefault()
-        axios.put('http://localhost:3000/auth/edit_employee/'+id, employee)
-        .then(result => {
-            if(result.data.Status) {
-                navigate('/dashboard/employee')
-            } else {
-                alert(result.data.Error)
-            }
-        }).catch(err => console.log(err))
-    }
-    
-  return (
-    <div className="d-flex justify-content-center align-items-center mt-3">
-      <div className="p-3 rounded w-50 border">
-        <h3 className="text-center">Edit Employee</h3>
-        <form className="row g-1" onSubmit={handleSubmit}>
-          <div className="col-12">
-            <label for="inputName" className="form-label">
-              Name
-            </label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              id="inputName"
-              placeholder="Enter Name"
-              value={employee.name}
-              onChange={(e) =>
-                setEmployee({ ...employee, name: e.target.value })
-              }
-            />
-          </div>
-          <div className="col-12">
-            <label for="inputEmail4" className="form-label">
-              Email
-            </label>
-            <input
-              type="email"
-              className="form-control rounded-0"
-              id="inputEmail4"
-              placeholder="Enter Email"
-              autoComplete="off"
-              value={employee.email}
-              onChange={(e) =>
-                setEmployee({ ...employee, email: e.target.value })
-              }
-            />
-          </div>
-          <div className='col-12'>
-            <label for="inputSalary" className="form-label">
-              Salary
-            </label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              id="inputSalary"
-              placeholder="Enter Salary"
-              autoComplete="off"
-              value={employee.salary}
-              onChange={(e) =>
-                setEmployee({ ...employee, salary: e.target.value })
-              }
-            />
-          </div>
-          <div className="col-12">
-            <label for="inputAddress" className="form-label">
-              Address
-            </label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              id="inputAddress"
-              placeholder="1234 Main St"
-              autoComplete="off"
-              value={employee.address}
-              onChange={(e) =>
-                setEmployee({ ...employee, address: e.target.value })
-              }
-            />
-          </div>
-          <div className="col-12">
-            <label for="category" className="form-label">
-              Category
-            </label>
-            <select name="category" id="category" className="form-select"
-                onChange={(e) => setEmployee({...employee, category_id: e.target.value})}>
-              {category.map((c) => {
-                return <option value={c.id}>{c.name}</option>;
-              })}
-            </select>
-          </div>
-          
-          <div className="col-12">
-            <button type="submit" className="btn btn-primary w-100">
-              Edit Event
-            </button>
-          </div>
-        </form>
-      </div>
-    </div>
-  )
-}
+        e.preventDefault();
+        axios.put('http://localhost:3000/auth/edit_event/' + id, event)
+            .then(result => {
+                if (result.data.Status) {
+                    navigate('/dashboard/events');
+                } else {
+                    alert(result.data.Error);
+                }
+            }).catch(err => console.log(err));
+    };
 
-export default EditEvents
+    return (
+        <div className="d-flex justify-content-center align-items-center mt-3">
+            <div className="p-3 rounded w-50 border">
+                <h3 className="text-center">Edit Event</h3>
+                <form className="row g-1" onSubmit={handleSubmit}>
+                    <div className="col-12">
+                        <label htmlFor="eventName" className="form-label">Event Name</label>
+                        <input
+                            type="text"
+                            className="form-control rounded-0"
+                            id="eventName"
+                            placeholder="Enter Event Name"
+                            value={event.event_name}
+                            onChange={(e) => setEvent({ ...event, event_name: e.target.value })}
+                        />
+                    </div>
+
+                    <div className="col-12">
+                        <label htmlFor="category" className="form-label">Category</label>
+                        <select
+                            name="category"
+                            id="category"
+                            className="form-select"
+                            value={event.event_type}
+                            onChange={(e) => setEvent({ ...event, event_type: e.target.value })}
+                        >
+                            {category.map((c) => (
+                                <option key={c.id} value={c.name}>{c.name}</option>
+                            ))}
+                        </select>
+                    </div>
+
+                    <div className="col-12">
+                        <label htmlFor="eventDate" className="form-label">Event Date</label>
+                        <input
+                            type="date"
+                            className="form-control rounded-0"
+                            id="eventDate"
+                            value={event.event_date}
+                            onChange={(e) => setEvent({ ...event, event_date: e.target.value })}
+                        />
+                    </div>
+
+                    <div className="col-12">
+                        <label htmlFor="startTime" className="form-label">Starting Time</label>
+                        <input
+                            type="time"
+                            className="form-control rounded-0"
+                            id="startTime"
+                            value={event.starting_time}
+                            onChange={(e) => setEvent({ ...event, starting_time: e.target.value })}
+                        />
+                    </div>
+
+                    <div className="col-12">
+                        <label htmlFor="endTime" className="form-label">Ending Time</label>
+                        <input
+                            type="time"
+                            className="form-control rounded-0"
+                            id="endTime"
+                            value={event.ending_time}
+                            onChange={(e) => setEvent({ ...event, ending_time: e.target.value })}
+                        />
+                    </div>
+
+                    <div className="col-12">
+                        <label htmlFor="location" className="form-label">Location</label>
+                        <input
+                            type="text"
+                            className="form-control rounded-0"
+                            id="location"
+                            value={event.event_location}
+                            onChange={(e) => setEvent({ ...event, event_location: e.target.value })}
+                        />
+                    </div>
+
+                    <div className="col-12">
+                        <label htmlFor="description" className="form-label">Description</label>
+                        <textarea
+                            className="form-control rounded-0"
+                            id="description"
+                            value={event.event_description}
+                            onChange={(e) => setEvent({ ...event, event_description: e.target.value })}
+                        />
+                    </div>
+
+                    <div className="col-12">
+                        <button type="submit" className="btn btn-primary w-100">
+                            Edit Event
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    );
+};
+
+export default EditEvents;

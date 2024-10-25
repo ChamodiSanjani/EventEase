@@ -4,16 +4,11 @@ import "bootstrap-icons/font/bootstrap-icons.css";
 import axios from "axios";
 
 const Dashboard = () => {
-  const anvigate = useNavigate()
+  const navigate = useNavigate()
   axios.defaults.withCredentials = true
   const handleLogout = () => {
-    axios.get('http://localhost:3000/auth/logout')
-    .then(result => {
-      if(result.data.Status) { 
-        localStorage.removeItem("valid")
-        anvigate('/')
-      }
-    })
+    localStorage.removeItem("valid")
+    navigate('/')
   }
   return (
     <div className="container-fluid">
@@ -59,15 +54,6 @@ const Dashboard = () => {
                 >
                   <i className="fs-4 bi-columns ms-2"></i>
                   <span className="ms-2 d-none d-sm-inline">Category</span>
-                </Link>
-              </li>
-              <li className="w-100">
-                <Link
-                  to="/dashboard/profile"
-                  className="nav-link px-0 align-middle text-white"
-                >
-                  <i className="fs-4 bi-person ms-2"></i>
-                  <span className="ms-2 d-none d-sm-inline">Profile</span>
                 </Link>
               </li>
               <li className="w-100" onClick={handleLogout}>

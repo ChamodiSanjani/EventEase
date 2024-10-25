@@ -35,7 +35,7 @@ function App() {
         <Route path='/dashboard/profile' element={<Profile />}></Route>
         <Route path='/dashboard/add_category' element={<AddCategory />}></Route>
         <Route path='/dashboard/add_event' element={<AddEvents />}></Route>
-        <Route path='/dashboard/edit_events/:id' element={<EditEvents />}></Route>
+        <Route path='/dashboard/edit_event/:id' element={<EditEvents />}></Route>
       </Route>
     </Routes>
     </BrowserRouter>
